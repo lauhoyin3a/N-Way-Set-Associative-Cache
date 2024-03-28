@@ -91,7 +91,7 @@ public class Solution {
     public int getCount() {
       int count = 0;
       for (int i = 0; i < this.Sets.length; i++) {
-        count += this.Sets[i].Count;
+        count += this.Sets[i].Store.size();
       }
       return count;
     }
@@ -124,6 +124,7 @@ public class Solution {
     int Capacity;
 
     HashMap<TKey,CacheItem<TKey, TValue>> Store;
+
     CacheItem<TKey, TValue> lru;
     CacheItem<TKey, TValue> mru;
     //LinkedList<TKey> UsageTracker;
@@ -137,6 +138,7 @@ public class Solution {
       this.lru.next = this.mru;
       this.mru.previous = this.lru;
     }
+
     /** Gets the value associated with key. Throws if key not found. */
     public TValue get(TKey key) {
       // If the key is present, update the usage tracker
@@ -249,15 +251,15 @@ public class Solution {
     CacheItem<TKey, TValue> evictItem(CacheSet<TKey, TValue> set);
 
   }
-  class LRUReplacementAlgo<TKey, TValue> implements IReplacementAlgo<TKey, TValue> {
+  static class LRUReplacementAlgo<TKey, TValue> implements IReplacementAlgo<TKey, TValue> {
     // TODO: Implement the interface defined above
     public CacheItem<TKey, TValue> evictItem(CacheSet<TKey, TValue> set){
-    // LRU remove
+      // LRU remove
       CacheItem<TKey, TValue> evictItem = set.lru.next;
       return evictItem;
     }
   }
-  class MRUReplacementAlgo<TKey, TValue> implements IReplacementAlgo<TKey, TValue> {
+  static class MRUReplacementAlgo<TKey, TValue> implements IReplacementAlgo<TKey, TValue> {
     // TODO: Implement the interface defined
     public CacheItem<TKey, TValue> evictItem(CacheSet<TKey, TValue> set){
       // LRU remove
@@ -320,4 +322,5 @@ public class Solution {
     }
   }
   // ^^ ######################### END Helper Classes ######################### ^^
+
 }
